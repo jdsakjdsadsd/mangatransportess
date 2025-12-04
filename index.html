@@ -374,7 +374,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const message = document.getElementById("message").value;
 
         try {
-            const resposta = await fetch("http://localhost:3000/enviar-formulario", {
+            const resposta = await fetch("https://mangatransportess-a914.vercel.app//enviar-formulario", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ name, email, message })
