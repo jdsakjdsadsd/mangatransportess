@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" type="imagex/png" href="logo.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nossa História - Manga Transportes</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <style>
+        :root {
+            --color-primary: #0a4f21; /* Verde Escuro */
+            --color-secondary: #FBAF29; /* Laranja */
+            --color-text-dark: #333;
+            --color-text-light: #fff;
+            --color-background-light: #f5f5f5;
+            --color-background-white: #fff;
+            --color-dark-footer: #181818; /* Novo: Tom mais escuro para o rodapé */
+            --color-footer-text: #ccc;
+            --color-footer-border: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Open Sans', sans-serif;
+            color: var(--color-text-dark);
+            background-color: var(--color-background-light);
+            line-height: 1.6;
+            overflow-x: hidden; 
+        }
+
+        /* Container */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header (Estilos Omitidos para Concisão - Mantidos Originais) */
+        .header {
+            padding: 20px 0;
+            background-color: transparent;
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+        .header-content-wrapper {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+        }
+        
+        /* 💡 ESTILO DA LOGO ATUALIZADO */
+        .logo img { 
+            height: 50px; /* Ajuste o tamanho da altura conforme sua logo */
+            width: auto;
+            display: block; /* Garante que a imagem se comporta bem */
+        }
+        
+        .nav-menu {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+        .nav-menu a {
+            text-decoration: none;
+            color: var(--color-text-light);
+            padding: 10px 15px;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+        .nav-menu a:hover { color: var(--color-secondary); }
+        .cta-button {
+            background-color: var(--color-secondary);
+            color: var(--color-text-light);
+            padding: 12px 25px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            display: inline-block;
+            margin-top: 0; 
+            line-height: 1;
+        }
+        .cta-button:hover { 
+            background-color: #e56d00; 
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+        .cta-button.menu-cta {
+            background-color: var(--color-secondary);
+            color: var(--color-text-light);
+            padding: 10px 20px;
+            margin-left: 10px;
+            margin-top: 0;
+        }
+        
+        /* 🎨 Estilo do Ícone Hamburguer no Mobile */
+        .menu-toggle {
+            display: none;
+            font-size: 28px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--color-secondary); 
+            transition: color 0.3s ease;
+        }
+
+        .menu-toggle:hover {
+            color: #ff9b33; /* Laranja mais claro no hover */
+        }
+
+        /* --- ANIMAÇÕES SUTIS DE APARECIMENTO (FADE-IN) --- */
+        
+        /* Estilo inicial: Escondido e ligeiramente abaixo */
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        /* Estilo final: Visível e na posição original */
+        .animate-on-scroll.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Atrasos para os elementos internos das seções */
+        .about-content-text, .proof-item, .service-card, .contact-content, .feedback-card,
+        .history-section h2, .history-section p, .timeline-item, .vision-mission { 
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        .proof-item:nth-child(1) { transition-delay: 0.1s; }
+        .proof-item:nth-child(2) { transition-delay: 0.2s; }
+        .proof-item:nth-child(3) { transition-delay: 0.3s; }
+        .proof-item:nth-child(4) { transition-delay: 0.4s; }
+
+        .service-card:nth-child(1) { transition-delay: 0.1s; }
+        .service-card:nth-child(2) { transition-delay: 0.2s; }
+        .service-card:nth-child(3) { transition-delay: 0.3s; }
+
+        /* Efeito no rodapé: Ícones das redes sociais */
+        .social-links a {
+            transition: all 0.3s ease, transform 0.5s ease; /* Adiciona transform na transição padrão */
+        }
+        .social-links a.is-visible {
+             /* Pequeno efeito de "pop" ao aparecer */
+            animation: popIn 0.6s ease forwards;
+        }
+        
+        @keyframes popIn {
+            0% { transform: scale(0.5); opacity: 0; }
+            70% { transform: scale(1.1); opacity: 1; }
+            100% { transform: scale(1); }
+        }
+        /* Atrasos individuais para os ícones sociais no rodapé */
+        .social-links a:nth-child(1) { animation-delay: 0.1s; }
+        .social-links a:nth-child(2) { animation-delay: 0.2s; }
+        .social-links a:nth-child(3) { animation-delay: 0.3s; }
+        /* --- FIM DAS ANIMAÇÕES SUTIS --- */
+
+        /* ---------------------------------------------------- */
+        /* 🎨 SEÇÃO HERO ATUALIZADA (BANNER INTERNO) 🎨 */
+        /* ---------------------------------------------------- */
+        
+        .hero-internal {
+            position: relative;
+            width: 100%;
+            height: 40vh; /* Altura menor para páginas internas */
+            display: flex;
+            align-items: center; /* Centraliza o conteúdo verticalmente */
+            /* justify-content: center; <-- Removido */
+            overflow: hidden;
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('socios.png') no-repeat center center/cover;
+            color: var(--color-text-light);
+          
+        }
+
+        /* O container dentro do hero vai cuidar do alinhamento */
+        
+        .hero-internal-content {
+            z-index: 1;
+            text-align: left; /* Alinha H1 e breadcrumb à esquerda */
+        }
+
+        .hero-internal h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 3.5rem;
+            font-weight: 700;
+            z-index: 1;
+            opacity: 0;
+            animation: fadeInDown 1s ease forwards;
+            margin-bottom: 10px; /* Espaço para o breadcrumb */
+        }
+
+        @keyframes fadeInDown {
+            from { transform: translateY(-30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        /* NOVO: Estilo do Breadcrumb */
+        .breadcrumb {
+            font-family: 'Open Sans', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.8); /* Cor mais suave para o texto 'atual' */
+            z-index: 1;
+            
+            /* Animação para aparecer depois do H1 */
+            opacity: 0;
+            transform: translateY(10px); /* Começa de baixo */
+            animation: fadeInUp 0.8s ease 0.4s forwards; /* Atraso de 0.4s */
+        }
+
+        .breadcrumb a {
+            color: var(--color-text-light); /* Cor branca para o link */
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .breadcrumb a:hover {
+            color: var(--color-secondary); /* Laranja no hover */
+        }
+
+        .breadcrumb span {
+            margin: 0 8px; /* Espaçamento da barra */
+            color: rgba(255, 255, 255, 0.6); /* Barra mais sutil */
+        }
+        
+        /* NOVO: Keyframe para o breadcrumb */
+        @keyframes fadeInUp {
+            from { transform: translateY(10px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        /* ---------------------------------------------------- */
+        /* 🎨 FIM DA SEÇÃO HERO ATUALIZADA 🎨 */
+        /* ---------------------------------------------------- */
+        
+        /* SEÇÃO NOSSA HISTÓRIA */
+        .history-section {
+            padding: 100px 0;
+            background-color: var(--color-background-white);
+        }
+
+        .history-section .section-title {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 42px;
+            color: var(--color-primary);
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .history-section .section-subtitle {
+            font-size: 1.1rem;
+            color: #666;
+            margin-bottom: 60px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            text-align: center;
+        }
+
+        .history-content {
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .history-intro {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .history-intro img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .history-intro p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #444;
+        }
+
+        .timeline {
+            position: relative;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 0;
+        }
+
+        .timeline::after {
+            content: '';
+            position: absolute;
+            width: 4px;
+            background-color: var(--color-primary);
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -2px;
+        }
+
+        .timeline-item {
+            padding: 20px 40px;
+            position: relative;
+            background-color: inherit;
+            width: 50%;
+            opacity: 0;
+            transform: translateY(20px); 
+            transition: transform 0.8s ease-out, opacity 0.8s ease-out;
+        }
+
+        .timeline-item.is-visible {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            width: 25px;
+            height: 25px;
+            right: -17px;
+            background-color: var(--color-secondary);
+            border: 4px solid var(--color-primary);
+            top: 15px;
+            border-radius: 50%;
+            z-index: 1;
+        }
+
+        .timeline-left {
+            left: 0;
+            text-align: right;
+        }
+
+        .timeline-right {
+            left: 50%;
+        }
+
+        .timeline-right::after {
+            left: -16px;
+        }
+
+        .timeline-content {
+            padding: 20px 30px;
+            background-color: var(--color-background-light);
+            position: relative;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            border-left: 5px solid var(--color-secondary);
+        }
+        
+        .timeline-left .timeline-content {
+            border-left: none;
+            border-right: 5px solid var(--color-secondary);
+        }
+
+        .timeline-content h3 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.5rem;
+            color: var(--color-primary);
+            margin-bottom: 10px;
+        }
+
+        .timeline-content p {
+            font-size: 1rem;
+            color: #555;
+            line-height: 1.6;
+        }
+
+        .vision-mission-section {
+            background-color: var(--color-primary);
+            color: var(--color-text-light);
+            padding: 80px 0;
+            text-align: center;
+        }
+
+        .vision-mission-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .vision-mission {
+            background-color: rgba(255, 255, 255, 0.08);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        .vision-mission h3 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.8rem;
+            color: var(--color-secondary);
+            margin-bottom: 15px;
+        }
+
+        .vision-mission p {
+            font-size: 1rem;
+            line-height: 1.7;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        /* NOVO RODAPÉ SOFISTICADO/MINIMALISTA */
+        .footer-moderno {
+            background-color: var(--color-dark-footer); 
+            color: var(--color-footer-text);
+            padding: 60px 0 0;
+            font-family: 'Open Sans', sans-serif;
+            font-size: 0.95rem;
+        }
+
+        .footer-grid {
+            display: grid;
+            /* 3 colunas, com a primeira (info) maior para destaque */
+            grid-template-columns: 2fr 1fr 1.5fr; 
+            gap: 40px;
+            padding-bottom: 40px;
+        }
+
+        .footer-moderno h3, 
+        .footer-moderno h4 {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--color-text-light); /* Títulos brancos ou tom claro */
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .footer-moderno h3.logo-text {
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .footer-moderno h4 {
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding-bottom: 5px; 
+            border-bottom: 2px solid var(--color-secondary); /* Linha de destaque Laranja */
+            display: inline-block;
+        }
+
+        .col-info .slogan-text {
+            font-size: 1.1rem;
+            line-height: 1.5;
+            margin-bottom: 8px;
+            color: var(--color-text-light);
+        }
+
+        .col-info .description-text {
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        /* Links */
+        .footer-moderno ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-moderno ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-moderno a {
+            color: var(--color-footer-text);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-moderno a:hover {
+            color: var(--color-secondary);
+        }
+
+        /* Contato */
+        .col-contato .contato-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+        
+        .col-contato .contato-item i {
+            font-size: 1rem;
+            margin-right: 10px;
+            color: var(--color-secondary);
+            margin-top: 3px; /* Alinhamento visual */
+        }
+
+        .col-contato .contato-item span {
+            color: var(--color-footer-text);
+        }
+
+        /* Redes Sociais */
+        .social-links {
+            margin-top: 25px;
+            display: flex;
+            gap: 15px;
+        }
+
+        .social-links a {
+            font-size: 1.4rem;
+            width: 35px;
+            height: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            border: 1px solid var(--color-footer-text);
+            color: var(--color-footer-text);
+            transition: all 0.3s;
+        }
+
+        .social-links a:hover {
+            background-color: var(--color-secondary);
+            color: var(--color-dark-footer);
+            border-color: var(--color-secondary);
+            transform: translateY(-2px);
+        }
+
+        /* Direitos Autorais */
+        .footer-copyright {
+            text-align: center;
+            border-top: 1px solid var(--color-footer-border);
+            padding: 20px 0;
+            font-size: 0.8rem;
+            color: white;
+        }
+        
+        /* Responsividade - Geral */
+        @media (max-width: 992px) {
+            .banner-text h1 { font-size: 2.2rem; }
+            .about-content-text .section-title, .feedbacks .section-title, .contact-section .section-title { font-size: 36px; } 
+            .proof-item h3 { font-size: 2.5rem; }
+            .proof-points { padding: 60px 0; }
+            .contact-content {
+                flex-direction: column;
+                gap: 40px;
+            }
+            /* Responsividade Rodapé Médio */
+            .footer-grid {
+                grid-template-columns: 2fr 1fr;
+            }
+            .col-info {
+                grid-column: 1 / -1; 
+            }
+
+            /* Sobre Nós - Layout ajustado para telas médias (sem imagem) */
+            .about-content-wrapper {
+                flex-direction: column;
+                gap: 40px;
+            }
+            .about-content-text {
+                max-width: 100%; 
+                transform: translateY(0); 
+                transition: none; 
+                opacity: 1; 
+            }
+
+            /* Linha do tempo responsiva */
+            .timeline::after {
+                left: 31px;
+            }
+            .timeline-item {
+                width: 100%;
+                padding-left: 70px;
+                padding-right: 25px;
+            }
+            .timeline-item::after {
+                left: 15px;
+            }
+            .timeline-right {
+                left: 0%;
+            }
+            .timeline-left .timeline-content {
+                border-right: none;
+                border-left: 5px solid var(--color-secondary);
+            }
+            .vision-mission-section {
+                padding: 60px 0;
+            }
+            .vision-mission h3 {
+                font-size: 1.5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            
+            /* -------------------------------------------------------------------------- */
+            /* 🌟 ESTILOS DE MENU HAMBÚRGUER SOFISTICADO/BONITO 🌟 */
+            /* -------------------------------------------------------------------------- */
+            .nav-menu {
+                position: fixed; 
+                top: 0; 
+                right: -100%; 
+                height: 100vh;
+                width: 70%; 
+                max-width: 350px; 
+                background-color: var(--color-dark-footer); 
+                flex-direction: column; 
+                display: flex; 
+                align-items: flex-start;
+                padding: 80px 30px 20px; 
+                box-shadow: -5px 0 15px rgba(0,0,0,0.5); 
+                transition: right 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94); 
+                z-index: 999; 
+                overflow-y: auto; 
+            }
+            
+            body.menu-open::before {
+                content: '';
+                position: fixed;
+                top: 0; left: 0; right: 0; bottom: 0;
+                background: rgba(0, 0, 0, 0.6); 
+                z-index: 998; 
+                opacity: 1;
+                transition: opacity 0.4s ease;
+            }
+            
+            body.menu-open {
+                overflow-y: hidden;
+            }
+
+            .nav-menu.active { 
+                right: 0; 
+            }
+
+            .nav-menu a, .nav-menu .cta-button {
+                width: 100%;
+                padding: 18px 0; 
+                margin: 0;
+                text-align: left;
+                font-weight: 600;
+                font-family: 'Montserrat', sans-serif; 
+                color: var(--color-footer-text); 
+                border-bottom: 1px solid var(--color-footer-border); 
+                transition: background-color 0.3s ease, color 0.3s ease, padding 0.3s ease;
+            }
+            
+            .nav-menu .cta-button {
+                margin-top: 20px;
+                padding: 15px 20px;
+                text-align: center;
+                border-bottom: none;
+                border-radius: 8px; 
+            }
+            
+            .nav-menu a:not(.cta-button):hover {
+                background-color: rgba(255, 255, 255, 0.05); 
+                color: var(--color-secondary);
+                padding-left: 10px; 
+            }
+
+            .menu-toggle { 
+                display: block; 
+                z-index: 1000; 
+            }
+            /* -------------------------------------------------------------------------- */
+            /* 🌟 FIM DOS ESTILOS DE MENU HAMBÚRGUER 🌟 */
+            /* -------------------------------------------------------------------------- */
+            
+            .hero-internal h1 { font-size: 2.5rem; }
+            .history-section .section-title { font-size: 36px; }
+            
+            /* Responsividade Rodapé Pequeno */
+            .footer-grid {
+                grid-template-columns: 1fr; 
+                gap: 30px;
+            }
+            .col-info {
+                grid-column: auto;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-internal { height: 30vh; }
+            .hero-internal h1 { font-size: 1.8rem; }
+            .breadcrumb { font-size: 0.9rem; } /* Ajuste no breadcrumb para mobile */
+            .history-section { padding: 80px 0 60px; }
+            .history-section .section-title { font-size: 28px; }
+            .history-intro p { font-size: 1rem; }
+            .timeline-item { padding-left: 60px; }
+            .timeline-item::after {
+                width: 20px;
+                height: 20px;
+                left: 10px;
+                top: 20px;
+            }
+            .timeline::after { left: 20px; }
+            .timeline-content h3 { font-size: 1.3rem; }
+            .timeline-content p { font-size: 0.95rem; }
+            .vision-mission-section { padding: 50px 0; }
+        }
+    </style>
+</head>
+<body>
+<header class="header">
+    <div class="container header-content-wrapper">
+        <a href="index.html" class="logo"> <img src="logo.png" alt="Manga Transportes Logo"> 
+        </a>
+        
+        <button class="menu-toggle" aria-label="Abrir menu"><i class="fas fa-bars"></i></button> 
+        
+        <nav class="nav-menu">
+            <a href="index.html#inicio">Início</a>
+            <a href="index.html#sobre">Sobre Nós</a>
+            <a href="index.html#servicos">Serviços</a>
+            <a href="index.html#feedbacks">Feedbacks</a>
+            <a href="index.html#contato">Contato</a>
+            <a href="trabalhe-conosco.html" target="_blank">Trabalhe Conosco</a>
+            <a href="https://wa.me/5544984385432" target="_blank" class="cta-button menu-cta">
+                Solicitar Orçamento
+            </a>
+        </nav>
+    </div>
+</header>
+
+<section class="hero-internal">
+    <div class="container"> <div class="hero-internal-content">
+            <h1>Nossa História</h1>
+            <nav class="breadcrumb" aria-label="breadcrumb">
+                <a href="index.html">Home</a>
+                <span>/</span>
+                <span>História</span>
+            </nav>
+        </div>
+    </div>
+</section>
+<section class="history-section">
+    <div class="container">
+        <h2 class="section-title animate-on-scroll">A jornada da Manga Transportes</h2>
+        <p class="section-subtitle animate-on-scroll">
+            Conheça os marcos que nos trouxeram até aqui e a paixão que nos move no agronegócio.
+        </p>
+
+    
+                A Manga Transportes foi fundada em 2021 com o propósito de suprir uma demanda crescente por logística especializada no setor agrícola. Desde o início, nosso foco tem sido conectar os produtores rurais aos mercados de forma eficiente, segura e sustentável, entendendo as particularidades de cada safra e de cada carga.
+            </p>
+            <p>
+                O que começou com uma frota modesta e uma equipe dedicada, rapidamente se expandiu graças à confiança de nossos clientes e à qualidade dos serviços prestados. Acreditamos que o sucesso do agronegócio passa por um transporte confiável, e é isso que entregamos todos os dias.
+            </p>
+        </div>
+
+        <div class="timeline">
+            <div class="timeline-item timeline-left animate-on-scroll">
+                <div class="timeline-content">
+                    <h3>2021: Fundação e Primeiras Rotas</h3>
+                    <p>Início das operações da Manga Transportes, focada em pequenas e médias cargas agrícolas na região sul do Brasil, estabelecendo parcerias iniciais com cooperativas locais.</p>
+                </div>
+            </div>
+            <div class="timeline-item timeline-right animate-on-scroll">
+                <div class="timeline-content">
+                    <h3>2022: Expansão da Frota e Serviços</h3>
+                    <p>Aumento significativo da frota e diversificação dos serviços, incluindo transporte de equipes de colheita e logística para eventos do setor agrícola.</p>
+                </div>
+            </div>
+            <div class="timeline-item timeline-left animate-on-scroll">
+                <div class="timeline-content">
+                    <h3>2023: Atendimento Nacional e Tecnologia</h3>
+                    <p>Expansão para atendimento em diversas regiões do país, com investimento em sistemas de rastreamento e gestão de frota para otimizar rotas e segurança.</p>
+                </div>
+            </div>
+            <div class="timeline-item timeline-right animate-on-scroll">
+                <div class="timeline-content">
+                    <h3>2024: Reconhecimento e Sustentabilidade</h3>
+                    <p>Consolidação como referência no transporte agrícola, com foco contínuo em práticas sustentáveis e programas de treinamento para motoristas e equipe de apoio.</p>
+                </div>
+            </div>
+        </div> </div>
+</section>
+
+<section class="vision-mission-section">
+    <div class="container">
+        <h2 class="section-title animate-on-scroll" style="color: var(--color-text-light);">Nossa Visão e Missão</h2>
+        <p class="section-subtitle animate-on-scroll" style="color: rgba(255, 255, 255, 0.9);">
+            Construímos o futuro da logística no campo com base em pilares sólidos de compromisso e inovação.
+        </p>
+        <div class="vision-mission-grid">
+            <div class="vision-mission animate-on-scroll">
+                <h3>Visão</h3>
+                <p>Ser a transportadora líder e mais confiável do agronegócio brasileiro, reconhecida pela excelência em serviços, inovação tecnológica e compromisso com o desenvolvimento rural sustentável.</p>
+            </div>
+            <div class="vision-mission animate-on-scroll">
+                <h3>Missão</h3>
+                <p>Oferecer soluções logísticas integradas e personalizadas para o agronegócio, garantindo transporte seguro, pontual e eficiente de pessoas e cargas, superando as expectativas de nossos clientes e parceiros.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer class="footer-moderno">
+    <div class="container">
+        <div class="footer-grid">
+            
+            <div class="col-info">
+                <h3 class="logo-text">Manga Transportes</h3>
+                <p class="slogan-text">Sua carga no campo, entregue com excelência.</p>
+                <p class="description-text">
+                    Líder em soluções logísticas para o agronegócio, garantindo a integridade e a pontualidade do seu produto. Conectamos o produtor ao mercado de forma eficiente.
+                </p>
+                
+                <div class="social-links animate-on-scroll">
+                    <a href="https://wa.me/5544984385432" target="_blank" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                    <a href="https://www.instagram.com/mangatransportes/" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                 
+                </div>
+            </div>
+
+            <div class="col-links">
+                <h4>Navegação</h4>
+                <ul>
+                    <li><a href="index.html#inicio">Início</a></li>
+                    <li><a href="index.html#sobre">Sobre Nós</a></li>
+                    <li><a href="index.html#servicos">Serviços</a></li>
+                    <li><a href="index.html#feedbacks">Feedbacks</a></li>
+                    <li><a href="trabalhe-conosco.html" target="_blank">Trabalhe Conosco</a></li>
+                    <li><a href="nossa-historia.html">Nossa História</a></li> </ul>
+            </div>
+
+            <div class="col-contato">
+                <h4>Contato</h4>
+                <div class="contato-item">
+                    <i class="fas fa-phone-alt"></i>
+                    <span>+55 (44) 98438-5432</span>
+                </div>
+                <div class="contato-item">
+                    <i class="fas fa-envelope"></i>
+                    <span>mangatransportes@gmail.com.br</span>
+                </div>
+                <div class="contato-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>Brasilandia do Sul - PR, Brasil</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer-copyright">
+        &copy; 2024 Manga Transportes. Todos os direitos reservados. Desenvolvido por Natã Reis.
+    </div>
+</footer>
+
+<script>
+    // Script para o Menu Hamburguer no Mobile
+    document.addEventListener('DOMContentLoaded', function() {
+        const menuToggle = document.querySelector('.menu-toggle');
+        const navMenu = document.querySelector('.nav-menu');
+        const body = document.body;
+        const navLinks = document.querySelectorAll('.nav-menu a');
+
+        menuToggle.addEventListener('click', function() {
+            navMenu.classList.toggle('active');
+            body.classList.toggle('menu-open');
+        });
+        
+        // Fecha o menu ao clicar em um link
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                navMenu.classList.remove('active');
+                body.classList.remove('menu-open');
+            });
+        });
+
+        // Script para Animação de Scroll (Fade-In)
+        const elementsToAnimate = document.querySelectorAll('.animate-on-scroll');
+
+        const observerOptions = {
+            root: null, // viewport
+            rootMargin: '0px',
+            threshold: 0.2 // O elemento é considerado visível quando 20% dele estiver no viewport
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    // Para elementos que não devem repetir a animação, descomente a linha abaixo:
+                    // observer.unobserve(entry.target);
+                }
+                /* else {
+                    entry.target.classList.remove('is-visible');
+                } */
+            });
+        }, observerOptions);
+
+        elementsToAnimate.forEach(element => {
+            observer.observe(element);
+        });
+        
+        // Não há Swiper nesta página, então o código de inicialização do Swiper pode ser removido.
+        // Se você quiser adicionar um carrossel em alguma seção futura da história, você pode reintroduzir.
+    });
+</script>
+</body>
+</html>
